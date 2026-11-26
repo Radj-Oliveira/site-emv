@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EMV — Elite Mídia Vision | Publicidade em telas em Remanso — BA</title>
+<meta name="description" content="A EMV instala telas em clínicas, academias e comércios de Remanso — BA e coloca a sua marca onde o público está esperando e olhando. Comunicação que se vê.">
+<meta name="theme-color" content="#040507">
+<meta property="og:title" content="EMV — Comunicação que se vê">
+<meta property="og:description" content="Publicidade em telas instaladas onde as pessoas esperam. Remanso — BA.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script type="module" src="js/main.js"></script>
+</head>
+<body class="is-loading">
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__top m"><span>EMV · Sintonizando</span><span>CH 01</span></div>
+  <div class="loader__pct" id="loaderPct">0%</div>
+  <div class="loader__bar"><i id="loaderBar"></i></div>
+</div>
+
+<div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"><em>&#9654;</em></span></div>
+<div class="grain" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="wipe" aria-hidden="true"><i class="wipe__a"></i><i class="wipe__b"><span class="wipe__t m" id="wipeT"></span></i></div>
+
+<!-- HUD: corners + chapter rail (like the headphone page), quiet and always aligned -->
+<div class="hud" aria-hidden="true">
+  <i class="hud__c tl"></i><i class="hud__c tr"></i><i class="hud__c bl"></i><i class="hud__c br"></i>
+  <div class="hud__rail"><span class="hud__line"><b id="railFill"></b></span><span class="hud__ticks" id="railTicks"></span></div>
+  <div class="hud__chap m"><b id="hudN">01</b><i></i><span id="hudName">Início</span></div>
+</div>
+
+<header class="hdr" id="hdr">
+  <!-- menu: same look; "Sobre a EMV" and "Para anunciar" open a list with every section -->
+  <nav class="nav m" aria-label="Principal">
+    <a href="#inicio">Início</a>
+    <div class="nav__dd"><button class="nav__btn" type="button" aria-expanded="false" aria-haspopup="true">Sobre a EMV <i aria-hidden="true">▾</i></button>
+      <div class="nav__menu"><a href="#quem-somos"><b>02</b>Quem somos</a><a href="#story"><b>03</b>Por que funciona</a><a href="#equipe"><b>06</b>Equipe</a><a href="#historia"><b>07</b>Nossa história</a></div></div>
+    <div class="nav__dd"><button class="nav__btn" type="button" aria-expanded="false" aria-haspopup="true">Para anunciar <i aria-hidden="true">▾</i></button>
+      <div class="nav__menu nav__menu--b"><a href="#vantagens"><b>04</b>Vantagens</a><a href="#telas"><b>05</b>Nossas telas</a><a href="#formatos"><b>08</b>Formatos</a><a href="#como-funciona"><b>09</b>Como funciona</a></div></div>
+    <a href="#contato">Contato</a>
+  </nav>
+  <div class="hdr__r">
+    <button class="sound m" id="soundTg" type="button" aria-pressed="false" aria-label="Ligar ou desligar a música"><span class="sound__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Som</button>
+    <button class="themetg m" id="themeTg" type="button" aria-pressed="false" aria-label="Alternar layout clean"><span class="themetg__sw"><i></i></span>Clean</button>
+    <a class="btn btn--sm btn--p magnetic" data-wa href="#" target="_blank" rel="noopener">Anuncie →</a>
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="mnav" id="mnav">
+  <div class="mnav__cols">
+    <div class="mnav__grp"><span class="m">Sobre a EMV</span><a href="#inicio"><b>01</b>Início</a><a href="#quem-somos"><b>02</b>Quem somos</a><a href="#story"><b>03</b>Por que funciona</a><a href="#equipe"><b>06</b>Equipe</a><a href="#historia"><b>07</b>Nossa história</a></div>
+    <div class="mnav__grp mnav__grp--b"><span class="m">Para anunciar</span><a href="#vantagens"><b>04</b>Vantagens</a><a href="#telas"><b>05</b>Nossas telas</a><a href="#formatos"><b>08</b>Formatos</a><a href="#como-funciona"><b>09</b>Como funciona</a><a href="#contato"><b>10</b>Contato</a></div>
+  </div>
+  <a class="btn btn--p" data-wa href="#" target="_blank" rel="noopener">Falar no WhatsApp →</a>
+</div>
+
+<main>
+
+<!-- 01 · ABERTURA — TV (Three.js) on the right, text column on the left -->
+<section class="scene hero" id="inicio" data-chap="01|Início">
+  <div class="scene__pin">
+    <canvas id="tv" aria-hidden="true"></canvas>
+    <div class="hero__fallback" aria-hidden="true"></div>
+    <div class="scrim scrim--l" aria-hidden="true"></div>
+    <canvas class="hero__dust" id="heroDust" aria-hidden="true"></canvas>
+    <div class="grid">
+      <div class="pnl pnl--hero is-in">
+        <p class="eye m"><b><i class="dot"></i>No ar</b><i></i><span>Publicidade em Remanso — BA</span></p>
+        <h1 class="ttl ttl--hero" id="heroTitle"><span class="ttl__in">Comunicação</span><span class="ttl__in">que <span class="gt">se vê</span></span></h1>
+        <p class="txt">A EMV leva a sua marca para telas em lugares onde o público está parado, esperando e olhando.</p>
+        <div class="acts"><a class="btn btn--p magnetic" data-wa href="#" target="_blank" rel="noopener">Quero anunciar →</a></div>
+        <p class="cue m"><i></i>Role</p>
+      </div>
+    </div>
+    <div class="hero__meta m"><span>CH 01 — Remanso</span><span>09°37′S · 42°05′W</span><span class="w" id="tc">00:00:00:00</span></div>
+  </div>
+</section>
+
+<!-- intertítulo: giant words cross the screen -->
+<section class="inter" aria-hidden="true"><div class="inter__pin"><span class="inter__l inter__a">Sua marca</span><span class="inter__l inter__b gt">em movimento.</span></div></section>
+
+<!-- 02 · QUEM SOMOS -->
+<section class="scene mani" id="quem-somos" data-chap="02|Quem somos" data-bg="rings:.5">
+  <div class="scene__pin">
+    <div class="grid">
+      <div class="mani__wrap">
+        <p class="eye m"><b>02</b><i></i><span>Quem somos</span></p>
+        <p class="mani__big" id="manifesto">Somos a EMV. Transformamos <span class="k">salas de espera</span> em canais de TV da sua cidade — e colocamos a sua marca no <span class="k">horário nobre</span> de quem está esperando.</p>
+      </div>
+      <dl class="facts m">
+        <div><dt>Empresa</dt><dd>EMV — Elite Mídia Vision</dd></div>
+        <div><dt>Base</dt><dd>Remanso, Bahia</dd></div>
+        <div><dt>Atuação</dt><dd>Mídia indoor · Telas e totens</dd></div>
+        <div><dt>No ar desde</dt><dd>2025</dd></div>
+        <div><dt>Instagram</dt><dd><a href="#" data-ig target="_blank" rel="noopener">@elitemidiavision</a></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 03 · POR QUE FUNCIONA — totem frames follow the scroll; one text column, always in the same place -->
+<section class="scene totem" id="story" data-chap="03|Por que funciona">
+  <div class="scene__pin">
+    <div class="totem__stage"><canvas class="totem__seq" id="totemSeq" aria-label="Totem da EMV se desmontando e mostrando a tecnologia por dentro"></canvas>
+      <!-- if assets/totem/totem.mp4 exists (the same animation as a video, with sound) it plays here instead of the frames -->
+      <video class="totem__vid" id="totemVid" loop muted playsinline preload="metadata" hidden></video>
+      <button class="fmt__snd m totem__snd" id="totemSnd" type="button" hidden>🔊 Ativar som</button></div>
+    <div class="scrim scrim--l" aria-hidden="true"></div>
+    <canvas class="hero__dust" id="heroDust" aria-hidden="true"></canvas>
+    <div class="grid">
+      <div class="pnl-stack">
+        <div class="pnl" data-k="0"><p class="eye m"><b>03</b><i></i><span>Por que funciona · 01</span></p><h2 class="ttl"><span class="ttl__in">Atenção real</span></h2><p class="txt">Quem espera não está com pressa. A tela vira o centro do ambiente.</p></div>
+        <div class="pnl" data-k="1"><p class="eye m"><b>03</b><i></i><span>Por que funciona · 02</span></p><h2 class="ttl"><span class="ttl__in">Marca local</span></h2><p class="txt">Anunciantes da cidade falando com o público da cidade, todos os dias.</p></div>
+        <div class="pnl" data-k="2"><p class="eye m"><b>03</b><i></i><span>Por que funciona · 03</span></p><h2 class="ttl"><span class="ttl__in">Tudo com a gente</span></h2><p class="txt">A EMV leva a tela, instala o suporte e cuida da programação dos anúncios.</p></div>
+        <span class="bar"><i id="totemBar"></i></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 · VANTAGENS — horizontal gallery -->
+<section class="perks" id="vantagens" data-chap="04|Vantagens">
+  <div class="scene__pin">
+    <div class="perks__track" id="perksTrack">
+      <div class="pnl perks__intro is-in">
+        <p class="eye m"><b>04</b><i></i><span>Vantagens</span></p>
+        <h2 class="ttl"><span class="ttl__in">Por que anunciar</span><span class="ttl__in">nas <span class="gt">telas EMV?</span></span></h2>
+        <p class="txt">Sua marca aparece para quem está parado, com tempo e olhando para a tela — várias vezes ao dia.</p>
+        <p class="cue cue--l m"><i></i>Role ←</p>
+      </div>
+      <div class="perks__sep m"><span>Para anunciantes</span></div>
+      <article class="perk" data-img="assets/vantagens/anunciante-01"><span class="perk__n m">01</span><div><h3>Mais visibilidade</h3><p>A sua marca aparece em vários pontos da cidade ao mesmo tempo.</p></div></article>
+      <article class="perk" data-img="assets/vantagens/anunciante-02"><span class="perk__n m">02</span><div><h3>Público atento</h3><p>Pessoas esperando prestam atenção na tela. Sem rolar o feed, sem pular.</p></div></article>
+      <article class="perk" data-img="assets/vantagens/anunciante-03"><span class="perk__n m">03</span><div><h3>Repetição diária</h3><p>O anúncio passa muitas vezes por dia e fixa a marca na memória.</p></div></article>
+      <article class="perk" data-img="assets/vantagens/anunciante-04"><span class="perk__n m">04</span><div><h3>Escolha dos locais</h3><p>Fale com o público certo escolhendo os tipos de estabelecimento.</p></div></article>
+      <article class="perk" data-img="assets/vantagens/anunciante-05"><span class="perk__n m">05</span><div><h3>Vídeo ou imagem</h3><p>Formatos vertical e horizontal, com movimento e cor.</p></div></article>
+      <article class="perk" data-img="assets/vantagens/anunciante-06"><span class="perk__n m">06</span><div><h3>Marca da cidade</h3><p>Ser visto em Remanso por quem vive e compra em Remanso.</p></div></article>
+      <div class="perks__sep m"><span>Para estabelecimentos</span></div>
+      <article class="perk perk--b" data-img="assets/vantagens/estabelecimento-01"><span class="perk__n m">01</span><div><h3>Espera mais leve</h3><p>Conteúdo na tela deixa o tempo de espera mais agradável.</p></div></article>
+      <article class="perk perk--b" data-img="assets/vantagens/estabelecimento-02"><span class="perk__n m">02</span><div><h3>Ambiente moderno</h3><p>Uma tela bem instalada valoriza a recepção do seu espaço.</p></div></article>
+      <article class="perk perk--b" data-img="assets/vantagens/estabelecimento-03"><span class="perk__n m">03</span><div><h3>Sem dor de cabeça</h3><p>A EMV instala, programa e cuida da tela.</p></div></article>
+      <article class="perk perk--b" data-img="assets/vantagens/estabelecimento-04"><span class="perk__n m">04</span><div><h3>Seus avisos na tela</h3><p>Combine com a equipe espaço para comunicados do seu negócio.</p></div></article>
+    </div>
+    <div class="grid perks__foot"><span class="bar"><i id="perksBar"></i></span></div>
+  </div>
+</section>
+
+<!-- 05 · TELAS — 3D ring on the right, text column on the left -->
+<section class="scene screens" id="telas" data-chap="05|Nossas telas" data-bg="rings:.6">
+  <div class="scene__pin">
+    <div class="ring" id="ringStage"><div class="ring__car" id="ring"></div></div>
+    <div class="grid">
+      <div class="pnl">
+        <p class="eye m"><b>05</b><i></i><span>Nossas telas</span></p>
+        <h2 class="ttl"><span class="ttl__in">Canais no ar</span><span class="ttl__in">agora.</span></h2>
+        <p class="txt">Anúncios rodando em Remanso. Passe o mouse para girar e clique numa tela para assistir.</p>
+        <p class="now"><span class="m g2">Agora no ar</span><b id="ringLabel">01 — Dr. Daniel Braga</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 · EQUIPE -->
+<section class="team" id="equipe" data-chap="06|Equipe">
+  <div class="grid">
+    <div class="pnl team__pnl">
+      <p class="eye m"><b>06</b><i></i><span>Equipe</span></p>
+      <h2 class="ttl"><span class="ttl__in">Quem faz a <span class="gt">EMV</span></span><span class="ttl__in">acontecer.</span></h2>
+      <p class="txt">Gente de Remanso cuidando de cada tela: da instalação ao anúncio no ar.</p>
+    </div>
+    <div class="team__grid">
+      <article class="member"><figure class="member__pic"><img class="member__base" src="assets/equipe/membro-3.png" alt="" loading="lazy"><img class="member__color" src="assets/equipe/membro-3.png" alt="Foto da equipe EMV" loading="lazy"><span class="member__scan" aria-hidden="true"></span><span class="member__ch m">CH 01</span><span class="member__hint m">Passe o mouse</span></figure>
+        <div class="member__txt"><b>Radijael Germano</b><span class="m g2">CEO · Direção &amp; estratégia</span></div></article>
+      <article class="member"><figure class="member__pic"><img class="member__base" src="assets/equipe/membro-1.png" alt="" loading="lazy"><img class="member__color" src="assets/equipe/membro-1.png" alt="Foto da equipe EMV" loading="lazy"><span class="member__scan" aria-hidden="true"></span><span class="member__ch m">CH 02</span><span class="member__hint m">Passe o mouse</span></figure>
+        <div class="member__txt"><b>Anielle Rodrigues</b><span class="m g2">Marketing</span></div></article>
+      <article class="member"><figure class="member__pic"><img class="member__base" src="assets/equipe/membro-2.png" alt="" loading="lazy"><img class="member__color" src="assets/equipe/membro-2.png" alt="Foto da equipe EMV" loading="lazy"><span class="member__scan" aria-hidden="true"></span><span class="member__ch m">CH 03</span><span class="member__hint m">Passe o mouse</span></figure>
+        <div class="member__txt"><b>Caio Menezes</b><span class="m g2">Instalação &amp; técnica</span></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- intertítulo -->
+<section class="inter" aria-hidden="true"><div class="inter__pin"><span class="inter__l inter__a">No ar</span><span class="inter__l inter__b gt">desde 2025.</span></div></section>
+
+<!-- 07 · HISTÓRIA — horizontal, layered parallax with a giant word behind -->
+<section class="hist" id="historia" data-chap="07|Nossa história" data-bg="rings:.4">
+  <div class="scene__pin">
+    <p class="hist__word" aria-hidden="true">Elite Mídia Vision · Remanso · Elite Mídia Vision</p>
+    <!-- 07 · NOSSA HISTÓRIA — a VHS tape playing on an old TV; scroll plays it chapter by chapter -->
+    <div class="pnl hist__head">
+      <p class="eye m"><b>07</b><i></i><span>Nossa história</span></p>
+      <h2 class="ttl"><span class="ttl__in">Nossa história.</span></h2>
+    </div>
+    <div class="vhs" id="vhs">
+      <div class="vhs__tv">
+        <div class="vhs__screen" id="vhsScreen">
+          <div class="vhs__chs" id="vhsChs"><!-- chapters come from config.js --></div>
+          <span class="vhs__osd vhs__osd--tl m" id="vhsMode">▶ PLAY</span>
+          <span class="vhs__osd vhs__osd--tr m" id="vhsDate">JAN 2025</span>
+          <span class="vhs__osd vhs__osd--bl m">REMANSO-BA</span>
+          <span class="vhs__osd vhs__osd--br m" id="vhsTc">0:00:00</span>
+          <i class="vhs__track" id="vhsTrack" aria-hidden="true"></i>
+          <i class="vhs__lines" aria-hidden="true"></i>
+        </div>
+        <div class="vhs__base m"><span>EMV · VIDEO</span><span class="vhs__led">● POWER</span></div>
+      </div>
+    </div>
+    <div class="grid hist__foot"><span class="bar"><i id="histBar"></i></span></div>
+  </div>
+</section>
+
+<!-- 08 · FORMATOS -->
+<section class="scene fmt" id="formatos" data-chap="08|Formatos">
+  <div class="scene__pin">
+    <div class="grid">
+      <div class="pnl-stack">
+        <div class="pnl is-on" data-s="h"><p class="eye m"><b>08</b><i></i><span>Formato A</span></p><h2 class="ttl"><span class="ttl__in">Tela horizontal</span></h2>
+          <div class="spec m"><span>Tela<b>50″ – 65″</b></span><span>Proporção<b>16:9</b></span><span>Ideal<b>Salas de espera</b></span></div></div>
+        <div class="pnl" data-s="v"><p class="eye m"><b>08</b><i></i><span>Formato B</span></p><h2 class="ttl"><span class="ttl__in">Totem vertical</span></h2>
+          <div class="spec m"><span>Tela<b>43″ – 55″</b></span><span>Proporção<b>9:16</b></span><span>Ideal<b>Entradas e corredores</b></span></div></div>
+        <div class="pnl fmt__live-pnl" data-s="ad"><p class="eye m"><b>08</b><i></i><span>Formato C</span><span class="fmt__onair">● MÍDIA INDOOR</span></p><h2 class="ttl"><span class="ttl__in"><span class="fmt__shine">Vídeo no totem</span></span></h2>
+          <div class="spec m"><span>Vídeo<b>15″ – 60″</b></span><span>Proporção<b>9:16</b></span><span>Áudio<b>Com som</b></span></div>
+          <div class="fmt__now m" aria-hidden="true"><span class="fmt__eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span id="fmtTc">00:00 / 00:00</span><span class="fmt__wave"></span></div>
+</div>
+      </div>
+      <div class="fmt__dev">
+        <div class="fmt__screen" id="fmtScreen"><div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fmt__ad" id="fmtAd"><!-- 3rd moment: the ad video plays here (assets/formatos/totem.mp4), in a loop, with sound -->
+            <video id="fmtVideo" src="assets/formatos/totem.mp4" loop playsinline preload="metadata"></video>
+            <span class="fmt__live m">● NO AR</span><button class="fmt__snd m" id="fmtSnd" type="button" hidden>🔊 Ativar som</button></div></div>
+        <div class="pole"></div><div class="base"></div>
+      </div>
+    </div>
+    <!-- totem 3: a second screen, lying down, on an arm fixed to the left wall (its video: assets/formatos/tela2.mp4) -->
+    <div class="fmt__wall" aria-label="Tela horizontal de parede">
+      <span class="fmt__arm" aria-hidden="true"><i class="fmt__plate"></i></span>
+      <div class="fmt__wscreen">
+        <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <video id="fmtWallVid" loop playsinline preload="metadata"></video>
+        <span class="fmt__soon m" id="fmtWallSoon">VÍDEO EM BREVE</span>
+        <span class="fmt__live m">● NO AR</span><button class="fmt__snd m" id="fmtWallSnd" type="button" hidden>🔊 Ativar som</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · COMO FUNCIONA -->
+<!-- 09 · COMO FUNCIONA — a signal travels from your request to the city's screens; each station lights up as it arrives -->
+<section class="scene how" id="como-funciona" data-chap="09|Como funciona" data-bg="rings:.5">
+  <div class="scene__pin">
+    <div class="how2">
+      <div class="pnl how2__head">
+        <p class="eye m"><b>09</b><i></i><span>Como funciona</span></p>
+        <h2 class="ttl"><span class="ttl__in">Do seu pedido à <span class="gt">tela da cidade.</span></span></h2>
+      </div>
+      <div class="how2__line">
+        <span class="how2__rail"><i class="how2__fill" id="howFill"></i><i class="how2__pulse" id="howPulse"></i></span>
+        <div class="how2__st" data-k="0"><span class="how2__ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 12h32v20H22l-8 7v-7H8z"/><path d="M15 20h18M15 25h12"/></svg></span><b class="m">01</b><span class="how2__lb">Você fala com a EMV</span></div>
+        <div class="how2__st" data-k="1"><span class="how2__ic"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="7" width="28" height="34" rx="3"/><path d="M16 16h16M16 22h16M16 28h10"/><circle cx="33" cy="33" r="6"/></svg></span><b class="m">02</b><span class="how2__lb">Montamos o plano</span></div>
+        <div class="how2__st" data-k="2"><span class="how2__ic"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="10" width="36" height="22" rx="3"/><path d="M18 38h12M24 32v6"/><path d="M14 4l6 6M34 4l-6 6"/></svg></span><b class="m">03</b><span class="how2__lb">A cidade assiste</span></div>
+      </div>
+      <div class="how2__body">
+        <article class="how2__step" data-k="0"><span class="how2__sig m">SINAL 01 · CONTATO</span><h3>Você conta o que quer divulgar.</h3><p>Pelo WhatsApp ou pessoalmente: o seu negócio, o público que quer alcançar e o que quer mostrar.</p></article>
+        <article class="how2__step" data-k="1"><span class="how2__sig m">SINAL 02 · PLANO</span><h3>Escolhemos os pontos, o período e o formato.</h3><div class="pacotes" id="pacotes"><!-- pacotes vêm do config.js --></div></article>
+        <article class="how2__step" data-k="2"><span class="how2__sig m">SINAL 03 · NO AR</span><h3>O anúncio entra na grade e a cidade assiste.</h3><p>Ele passa várias vezes ao dia, em todas as telas do seu plano — e quem espera, vê.</p></article>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="numbers">
+  <div class="grid">
+    <div class="nums" id="nums"></div>
+    <p class="nums__note m g2">* números provisórios</p>
+  </div>
+</section>
+
+<!-- 10 · ONDE NOS ENCONTRAR -->
+<section class="find" id="contato" data-chap="10|Contato">
+  <canvas id="map" aria-hidden="true"></canvas>
+  <div class="scrim scrim--l" aria-hidden="true"></div>
+  <div class="grid find__grid">
+    <div class="pnl find__pnl">
+      <p class="eye m"><b>10</b><i></i><span>Onde nos encontrar</span></p>
+      <h2 class="ttl"><span class="ttl__in">Daqui de</span><span class="ttl__in"><span class="gt">Remanso.</span></span></h2>
+      <p class="txt">Às margens do Lago de Sobradinho, no norte da Bahia. É daqui que a EMV coloca a cidade inteira na tela.</p>
+      <div class="find__info m">
+        <span>Cidade<b>Remanso — BA</b></span>
+        <span>WhatsApp<b><a href="#" data-wa target="_blank" rel="noopener">(74) 8142-9356</a></b></span>
+        <span>Instagram<b><a href="#" data-ig target="_blank" rel="noopener">@elitemidiavision</a></b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · CTA — circular reveal (iris) -->
+<section class="cta" data-chap="11|No ar" data-bg="rings:.7,wave:1">
+  <div class="cta__iris" id="ctaIris">
+    <div class="cta__in">
+      <p class="eye m eye--c"><b><i class="dot"></i></b><i></i><span>Próximo intervalo comercial</span><i></i></p>
+      <h2 class="ttl ttl--cta"><span class="ttl__in">Sua marca</span><span class="ttl__in"><span class="gt">no ar</span></span></h2>
+      <div class="acts acts--c"><a class="btn btn--p" data-wa href="#" target="_blank" rel="noopener">Falar no WhatsApp →</a><a class="btn" data-wa="parceria" href="#" target="_blank" rel="noopener">Quero uma tela no meu espaço</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="ftr m g2">
+  <div class="ftr__logo"><img src="assets/logo-emv.svg" alt="EMV" width="92" height="32"><span>Elite Mídia Vision</span></div>
+  <div><span>Remanso — BA</span><span>Brasil</span></div>
+  <div><a href="#" data-ig target="_blank" rel="noopener">Instagram</a><a href="#" data-wa target="_blank" rel="noopener">WhatsApp</a></div>
+  <div class="ftr__r"><span>© <span id="year">2026</span> EMV</span><span>Comunicação que se vê</span></div>
+</footer>
+
+<div class="player" id="player" hidden role="dialog" aria-modal="true" aria-label="Tela ampliada">
+  <div class="player__bg" id="playerBg"></div>
+  <div class="player__frame" id="playerFrame"><div class="player__media" id="playerMedia"></div></div>
+  <aside class="player__info" id="playerInfo">
+    <span class="m g2" id="pCh">CH 01</span>
+    <h3 id="pName">—</h3>
+    <span class="m g1" id="pSeg"></span>
+    <p class="g1" id="pTxt"></p>
+    <div class="player__btns"><a class="btn btn--p" data-wa href="#" target="_blank" rel="noopener">Quero anunciar também →</a></div>
+  </aside>
+  <button class="player__x" id="playerClose" type="button" aria-label="Fechar">×</button>
+</div>
+
+<div class="chat" id="chat">
+  <button class="chat__fab" id="chatFab" aria-label="Abrir chat de dúvidas" aria-expanded="false">
+    <span class="chat__ico"><i></i><i></i><i></i></span><span class="m">Dúvidas?</span>
+  </button>
+  <div class="chat__box" id="chatBox" role="dialog" aria-label="Chat EMV" hidden>
+    <div class="chat__top"><div><b>Assistente EMV</b><span class="m g2"><i class="dot"></i>Respostas rápidas</span></div><button class="chat__x" id="chatClose" aria-label="Fechar chat">×</button></div>
+    <div class="chat__log" id="chatLog" aria-live="polite"></div>
+    <div class="chat__chips" id="chatChips"></div>
+    <form class="chat__form" id="chatForm" autocomplete="off">
+      <input id="chatIn" type="text" maxlength="280" placeholder="Escreva sua dúvida…" aria-label="Sua dúvida">
+      <button type="submit" aria-label="Enviar">→</button>
+    </form>
+    <p class="chat__note m g2">Nada do que você digita fica salvo.</p>
+  </div>
+</div>
+
+</body>
+</html>

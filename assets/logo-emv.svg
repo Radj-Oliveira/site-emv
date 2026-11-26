@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -8 168 70" width="168" height="70">
+  <!-- Logo EMV redesenhado a partir do perfil: E azul, M branco, V verde com seta listrada. Trocar pelo arquivo original quando chegar. -->
+  <defs>
+    <linearGradient id="eb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a8bff"/><stop offset="1" stop-color="#1253e6"/></linearGradient>
+    <linearGradient id="mw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#c9ced6"/></linearGradient>
+    <linearGradient id="vg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#1fae3a"/><stop offset=".6" stop-color="#5fd63a"/><stop offset="1" stop-color="#b8f03a"/></linearGradient>
+  </defs>
+  <!-- 3D depth (offset shadows) -->
+  <g transform="translate(2.8 2.8)" opacity=".9">
+    <path fill="#0b2a7a" stroke="#0b2a7a" stroke-width="2.4" stroke-linejoin="miter" d="M6 8 H98 L95 17 H25 V27 H45 V35 H25 V45 H48 V54 H6 Z"/>
+    <path fill="#6b717a" stroke="#6b717a" stroke-width="2.4" stroke-linejoin="miter" d="M50 54 V22 H61 L75 39 L89 22 H100 V54 H89 V38 L75 54 L61 38 V54 Z"/>
+    <path fill="none" stroke="#0e5a1e" stroke-width="13.4" stroke-linejoin="miter" d="M106 20 L119 50 L139 11"/>
+  </g>
+  <!-- E (blue) with the long top bar over the M -->
+  <path fill="url(#eb)" stroke="url(#eb)" stroke-width="2.4" stroke-linejoin="miter" d="M6 8 H98 L95 17 H25 V27 H45 V35 H25 V45 H48 V54 H6 Z"/>
+  <!-- M (white) -->
+  <path fill="url(#mw)" stroke="url(#mw)" stroke-width="2.4" stroke-linejoin="miter" d="M50 54 V22 H61 L75 39 L89 22 H100 V54 H89 V38 L75 54 L61 38 V54 Z"/>
+  <!-- V (green) whose right arm rises into an arrow -->
+  <path fill="none" stroke="url(#vg)" stroke-width="13.4" stroke-linejoin="miter" d="M106 20 L119 50 L139 11"/>
+  <path fill="#b8f03a" stroke="#b8f03a" stroke-width="2" stroke-linejoin="miter" d="M129.6 6.3 L146.6 -3.8 L148.4 15.7 Z"/>
+  <!-- the two stripes on the arrow shaft -->
+  <path stroke="#05070b" stroke-width="2.2" d="M128.6 17 L140.2 23 M126.5 21.4 L138.1 27.4"/>
+</svg>
