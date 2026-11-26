@@ -17,7 +17,7 @@ function answer(q) {
 }
 
 export function initChat() {
-  const fab = document.getElementById('chatFab'), box = document.getElementById('chatBox'), close = document.getElementById('chatClose');
+  const triggers = document.querySelectorAll('[data-chat]'), box = document.getElementById('chatBox'), close = document.getElementById('chatClose');
   const log = document.getElementById('chatLog'), chips = document.getElementById('chatChips'), form = document.getElementById('chatForm'), input = document.getElementById('chatIn');
   let started = false, busy = false, last = 0;
 
@@ -49,11 +49,12 @@ export function initChat() {
     CHAT.sugestoes.forEach(s => { const b = document.createElement('button'); b.type = 'button'; b.textContent = s; b.addEventListener('click', () => ask(s)); chips.appendChild(b); });
   }
   function open(v) {
-    box.hidden = !v; fab.setAttribute('aria-expanded', String(v));
+    box.hidden = !v; triggers.forEach(t => t.setAttribute('aria-expanded', String(v)));
     if (v && !started) { started = true; renderChips(); botSay(CHAT.saudacao); }
     if (v) { setTimeout(() => input.focus({ preventScroll: true }), 50); if (window.gsap) gsap.fromTo(box, { opacity: 0, y: 16, scale: .97 }, { opacity: 1, y: 0, scale: 1, duration: .45, ease: 'power3.out' }); }
   }
-  fab.addEventListener('click', () => open(box.hidden));
+  // opens only when the visitor clicks "Atendimento" in the menu (no floating button, nothing automatic)
+  triggers.forEach(t => t.addEventListener('click', (e) => { e.preventDefault(); open(box.hidden); }));
   close.addEventListener('click', () => open(false));
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden) open(false); });
   form.addEventListener('submit', (e) => { e.preventDefault(); ask(input.value); input.value = ''; });

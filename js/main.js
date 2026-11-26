@@ -298,9 +298,10 @@ function runSite() {
 
   /* ---------- intertitles: giant words cross the screen in opposite directions ---------- */
   $$('.inter').forEach(sec => {
-    gsap.timeline({ scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: .6 } })
-      .fromTo($('.inter__a', sec), { x: () => innerWidth * .45 }, { x: () => -innerWidth * .55, ease: 'none' }, 0)
-      .fromTo($('.inter__b', sec), { x: () => -innerWidth * .45 }, { x: () => innerWidth * .4, ease: 'none' }, 0);
+    const ph = () => innerWidth <= 700 && innerHeight > innerWidth;   // phone standing up: whole phrase stays readable
+    gsap.timeline({ scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: .6, invalidateOnRefresh: true } })
+      .fromTo($('.inter__a', sec), { x: () => innerWidth * (ph() ? .1 : .45) }, { x: () => -innerWidth * (ph() ? .1 : .55), ease: 'none' }, 0)
+      .fromTo($('.inter__b', sec), { x: () => -innerWidth * (ph() ? .1 : .45) }, { x: () => innerWidth * (ph() ? .1 : .4), ease: 'none' }, 0);
   });
 
   /* ---------- 02 manifesto: words light up ---------- */
@@ -461,8 +462,8 @@ function runSite() {
     const tc = $('#fmtTc'), mmss = t => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
     vid.addEventListener('timeupdate', () => { tc.textContent = `${mmss(vid.currentTime)} / ${mmss(vid.duration || 0)}`; });
     vid.addEventListener('loadedmetadata', () => { tc.textContent = `00:00 / ${mmss(vid.duration)}`; });
-    const wV = () => mobile() ? Math.min(innerWidth * .42, 240, innerHeight * .3) : Math.min(innerWidth * .26, 420, innerHeight * .7 * 9 / 16);
-    const wC = () => mobile() ? Math.min(innerWidth * .5, 290, innerHeight * .36) : Math.min(innerWidth * .28, 460, innerHeight * .76 * 9 / 16);
+    const wV = () => mobile() ? Math.min(innerWidth * .36, 240, innerHeight * .3) : Math.min(innerWidth * .26, 420, innerHeight * .7 * 9 / 16);
+    const wC = () => mobile() ? Math.min(innerWidth * .42, 290, innerHeight * .36) : Math.min(innerWidth * .28, 460, innerHeight * .76 * 9 / 16);
     gsap.timeline({ scrollTrigger: { trigger: '.fmt', start: 'top top', end: 'bottom bottom', scrub: 1, invalidateOnRefresh: true,
       onUpdate: s => { const c = s.progress > .7; setK(c ? 2 : s.progress > .3 ? 1 : 0); fsec.classList.toggle('is-ad', c); c && s.isActive ? playVid() : stopVid(); },
       onLeave: stopVid, onLeaveBack: stopVid } })
@@ -529,7 +530,8 @@ function runSite() {
     osd.innerHTML = '<b></b><span></span>'; document.body.appendChild(osd);
     const ease = t => t * t * (3 - 2 * t);
     const render = (p, top = innerHeight) => {
-      osd.style.transform = `translateY(${Math.max(0, top - osd.offsetHeight - 22).toFixed(1)}px)`;   // rides just above the incoming section, bottom-left, in the empty gap
+      const below = osd.dataset.sec === '.how' && innerWidth <= 700 && innerHeight > innerWidth;
+      osd.style.transform = `translateY(${Math.max(0, below ? top + innerHeight * .12 : top - osd.offsetHeight - 22).toFixed(1)}px)`;   // rides just above the incoming section, bottom-left, in the empty gap
       const k = ease(seg(p, .05, .2)) * (1 - ease(seg(p, .75, .95)));
       osd.style.opacity = (k * (p < .2 ? (Math.sin(p * 160) > -.3 ? 1 : .35) : 1)).toFixed(3);   // a little flicker as it tunes in
     };
@@ -537,7 +539,7 @@ function runSite() {
     ['.totem', '.perks', '.screens', '.team', '.fmt', '.how', '.find'].forEach(sel => {
       const sec = $(sel); if (!sec) return;
       const [n, name] = sec.dataset.chap.split('|');
-      const label = () => { $('b', osd).textContent = `CH ${n}`; $('span', osd).textContent = name; };
+      const label = () => { $('b', osd).textContent = `CH ${n}`; $('span', osd).textContent = name; osd.dataset.sec = sel; };
       ScrollTrigger.create({ trigger: sec, start: 'top 85%', end: 'top 15%', onEnter: label, onEnterBack: label,
         onUpdate: s => render(s.progress, sec.getBoundingClientRect().top), onLeave: () => render(1), onLeaveBack: () => render(0) });
     });

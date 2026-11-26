@@ -36,11 +36,16 @@ function hiss(dur, vol, fType, f0, f1, q = 1, t = 0) {
    Built to be clearly different from the music: a mechanical click, a burst of tape hiss that sweeps
    (like the tracking band crossing the screen) and a low motor wobble. --- */
 const SOUNDS = {
+  // a light switching on: the switch "click", the lamp flickering on with an electric buzz, then a soft glow
   tape: { gap: 250, play: () => {
-    tone('square', 180, 110, .045, .05);                         // "chk" of the tape head
-    hiss(.5, .07, 'bandpass', 4200, 700, 1.4, .02);              // "shhhh" sweeping down with the tracking band
-    hiss(.42, .035, 'highpass', 6000, 3000, .7, .04);            // fine crackle on top
-    tone('sawtooth', 62, 55, .45, .03, .03);                     // motor wobble underneath
+    hiss(.03, .12, 'highpass', 3000, 2500, .8);                  // "tlec" of the switch
+    tone('square', 1400, 900, .025, .03);
+    [.06, .13, .17].forEach((t, i) => {                          // flicker: the lamp tries, then catches
+      tone('sawtooth', 120, 120, .04 + i * .015, .035, t);
+      hiss(.035, .03, 'bandpass', 2200, 1800, 3, t);
+    });
+    tone('sine', 240, 240, .55, .025, .22);                      // the lamp's hum, fading out
+    tone('sine', 1760, 1760, .5, .008, .22);                     // a faint shine on top
   } },
 };
 

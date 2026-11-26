@@ -47,6 +47,9 @@ export function createMap(canvas) {
       ctx.closePath(); ctx.stroke();
     }
 
+    // phones standing up: the town, roads and river sit higher, away from the lake
+    const lift = mobile && H > W ? H * .1 : 0;
+    ctx.save(); ctx.translate(0, -lift);
     // river (dashed), roads and travelling particles
     ctx.setLineDash([5, 7]); ctx.strokeStyle = `rgba(0,168,255,${.35 * p})`; ctx.lineWidth = 1.2;
     ctx.beginPath(); const r0 = P(.39, .31), r1 = P(.31, .04); ctx.moveTo(...r0); ctx.bezierCurveTo(r0[0] - 30, r0[1] - 60, r1[0] + 40, r1[1] + 50, ...r1); ctx.stroke();
@@ -63,7 +66,9 @@ export function createMap(canvas) {
       if (i < 2) { ctx.fillStyle = 'rgba(242,244,245,.55)'; ctx.beginPath(); ctx.arc(X, Y, 3, 0, 7); ctx.fill(); }
       ctx.fillStyle = 'rgba(242,244,245,.42)'; ctx.fillText(n, X + 10, Y + (i === 2 ? 12 : 0)); ctx.globalAlpha = 1;
     });
+    ctx.restore();
     ctx.globalAlpha = p; ctx.fillStyle = 'rgba(0,168,255,.55)'; ctx.fillText('LAGO DE SOBRADINHO', cx - 40, cy + 6); ctx.globalAlpha = 1;
+    ctx.save(); ctx.translate(0, -lift);
 
     // Remanso pin
     const [X, Y] = P(.41, .39), pin = Math.min(1, Math.max(0, p * 2 - .6));
@@ -74,6 +79,7 @@ export function createMap(canvas) {
       ctx.globalAlpha = pin; ctx.font = '500 13px "JetBrains Mono", monospace'; ctx.fillStyle = '#f2f4f5'; ctx.fillText('REMANSO — BA', X + 20, Y - 8);
       ctx.font = '400 11px "JetBrains Mono", monospace'; ctx.fillStyle = 'rgba(242,244,245,.5)'; ctx.fillText('09°37′S  42°05′W', X + 20, Y + 10); ctx.globalAlpha = 1;
     }
+    ctx.restore();
     ctx.restore();
     // north arrow
     ctx.strokeStyle = 'rgba(242,244,245,.3)'; ctx.beginPath(); ctx.moveTo(W - 48, 70); ctx.lineTo(W - 48, 108); ctx.stroke();

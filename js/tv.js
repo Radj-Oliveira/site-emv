@@ -204,8 +204,8 @@ export async function createTV(canvas) {
     } else {
       camera.clearViewOffset(); camera.fov = 38; shiftX = shiftY = 0;
       focal = (h / 2) / Math.tan(THREE.MathUtils.degToRad(19));
-      target.set(0, 3.7, 0); camera.position.set(0, .9, 21);
-      uniforms.uOff.value.set(0, 2.3, 0);   // portrait: smaller TV, higher up, the title sits below it
+      target.set(0, 3.7, 0); camera.position.set(0, .9, 23.5);
+      uniforms.uOff.value.set(0, 3.4, 0);   // portrait: smaller TV, higher up, the title sits below it
     }
     camera.lookAt(target);
     camera.updateProjectionMatrix();
