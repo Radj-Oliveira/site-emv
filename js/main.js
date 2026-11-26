@@ -467,7 +467,7 @@ function runSite() {
       onUpdate: s => { const c = s.progress > .7; setK(c ? 2 : s.progress > .3 ? 1 : 0); fsec.classList.toggle('is-ad', c); c && s.isActive ? playVid() : stopVid(); },
       onLeave: stopVid, onLeaveBack: stopVid } })
       // bigger screens: horizontal ≈ half the page width, vertical ≈ 70% of the page height
-      .fromTo(fs, { width: () => mobile() ? Math.min(innerWidth * .86, 520) : Math.min(innerWidth * .45, 860, innerHeight * .62 * 16 / 9), aspectRatio: '16 / 9' },
+      .fromTo(fs, { width: () => mobile() ? Math.min(innerWidth * .86, 520, innerHeight * .5 * 16 / 9) : Math.min(innerWidth * .45, 860, innerHeight * .62 * 16 / 9), aspectRatio: '16 / 9' },
         { width: wV, aspectRatio: '9 / 16', ease: 'power2.inOut', duration: 1 }, .3)
       // the same kind of transformation into moment C: the totem grows while the video fades in over the colour bars
       .fromTo(fs, { width: wV }, { width: wC, ease: 'power2.inOut', duration: 1, immediateRender: false }, 1.9)

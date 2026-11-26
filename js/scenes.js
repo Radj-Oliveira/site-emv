@@ -48,7 +48,7 @@ function draw(canvas) {
   canvas.width = W * dpr; canvas.height = H * dpr;
   const x = canvas.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0);
   const s = Math.max(.8, W / 600), kind = canvas.dataset.scene;
-  x.fillStyle = '#05070b'; x.fillRect(0, 0, W, H);
+  x.fillStyle = '#303632'; x.fillRect(0, 0, W, H);
   // wall dot grid + floor line
   x.fillStyle = 'rgba(242,244,245,.06)'; for (let yy = 12; yy < H; yy += 16) for (let xx = 12; xx < W; xx += 16) x.fillRect(xx, yy, 1, 1);
   const floor = H * .86; x.strokeStyle = 'rgba(0,168,255,.18)'; x.beginPath(); x.moveTo(0, floor); x.lineTo(W, floor); x.stroke();
@@ -153,7 +153,7 @@ export function crowd(x, baseY, xs, h, rim) { xs.forEach((px, i) => person(x, px
 
 /* particle portrait (head & shoulders) for the team cards */
 function portrait(x, W, H, col) {
-  x.fillStyle = '#05070b'; x.fillRect(0, 0, W, H);
+  x.fillStyle = '#303632'; x.fillRect(0, 0, W, H);
   const g = x.createRadialGradient(W * .5, H * .35, 0, W * .5, H * .35, W * .8); g.addColorStop(0, rgba(col, .28)); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, W, H);
   x.globalCompositeOperation = 'lighter';
   const cx = W / 2, hy = H * .4, hr = W * .17;
